@@ -1,0 +1,19 @@
+* {
+    margin: 0;
+}
+
+#map {
+    width: 1000px;
+    height: 600px;
+}
+
+#attraction-panel {
+    display: none;
+}
+
+.container-fluid {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 100px;
+}
