@@ -1,3 +1,5 @@
+var markers = [];
+
 function getLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(showPosition, showError);
@@ -21,7 +23,8 @@ function showPosition(position) {
     data: {
       apikey: "NtclOaEDxrje7WH09PLMkduQRMFWGKz8",
       latlong: latlon,
-      classificationName: "house, techno, dance, rave, electronic",
+      classificationName:
+        "electronic, techno, dance, house, tech house, garage, dnb, drum and bass, jungle",
     },
     async: true,
     dataType: "json",
@@ -67,9 +70,17 @@ function initMap(position, json) {
     center: { lat: position.coords.latitude, lng: position.coords.longitude },
     zoom: 10,
   });
+
   for (var i = 0; i < json.page.size; i++) {
     addMarker(map, json._embedded.events[i]);
   }
+
+  // Fit the map's bounds to ensure all markers are visible
+  var bounds = new google.maps.LatLngBounds();
+  for (var i = 0; i < markers.length; i++) {
+    bounds.extend(markers[i].getPosition());
+  }
+  map.fitBounds(bounds);
 }
 
 function addMarker(map, event) {
@@ -80,8 +91,22 @@ function addMarker(map, event) {
     ),
     map: map,
   });
-  marker.setIcon("http://maps.google.com/mapfiles/ms/icons/red-dot.png");
-  console.log(marker);
+
+  var infowindow = new google.maps.InfoWindow({
+    content: `<div>
+      <h2>${event.name}</h2>
+      <p>${event.classifications[0].subGenre.name}</p>
+      <p>Venue: ${event._embedded.venues[0].name}</p>
+      <p>Date: ${event.dates.start.localDate}</p>
+      <a href="${event.url}" target="_blank">Event Details</a>
+    </div>`,
+  });
+
+  marker.addListener("click", function () {
+    infowindow.open(map, marker);
+  });
+
+  markers.push(marker);
 }
 
 getLocation();
