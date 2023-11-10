@@ -82,7 +82,10 @@ function addMarker(map, event) {
       <p>${event.classifications[0].genre.name}</p>
       <p>Venue: ${event._embedded.venues[0].name}</p>
       <p>Date: ${event.dates.start.localDate}</p>
+      <p><a href="#" >Save event <i class="far fa-heart"></i></a></p>
       <a href="${event.url}" target="_blank">Event Details</a>
+      
+      
     </div>`,
   });
 
