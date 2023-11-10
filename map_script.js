@@ -9,12 +9,12 @@ function getLocation() {
   }
 }
 function showPosition(position) {
-  var x = document.getElementById("location");
-  x.innerHTML =
-    "Latitude: " +
-    position.coords.latitude +
-    "<br>Longitude: " +
-    position.coords.longitude;
+  // var x = document.getElementById("location");
+  // x.innerHTML =
+  //   "Latitude: " +
+  //   position.coords.latitude +
+  //   "<br>Longitude: " +
+  //   position.coords.longitude;
   var latlon = position.coords.latitude + "," + position.coords.longitude;
 
   $.ajax({
@@ -31,7 +31,7 @@ function showPosition(position) {
     success: function (json) {
       console.log(json);
       var e = document.getElementById("events");
-      e.innerHTML = json.page.totalElements + " events found.";
+      // e.innerHTML = json.page.totalElements + " events found.";
       showEvents(json);
       initMap(position, json);
     },
@@ -58,11 +58,11 @@ function showError(error) {
   }
 }
 
-function showEvents(json) {
-  for (var i = 0; i < json.page.size; i++) {
-    $("#events").append("<p>" + json._embedded.events[i].name + "</p>");
-  }
-}
+// function showEvents(json) {
+//   for (var i = 0; i < json.page.size; i++) {
+//     $("#events").append("<p>" + json._embedded.events[i].name + "</p>");
+//   }
+// }
 
 function initMap(position, json) {
   var mapDiv = document.getElementById("map");
