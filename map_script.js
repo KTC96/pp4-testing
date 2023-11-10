@@ -8,31 +8,21 @@ function getLocation() {
     x.innerHTML = "Geolocation is not supported by this browser.";
   }
 }
+
 function showPosition(position) {
-  // var x = document.getElementById("location");
-  // x.innerHTML =
-  //   "Latitude: " +
-  //   position.coords.latitude +
-  //   "<br>Longitude: " +
-  //   position.coords.longitude;
   var latlon = position.coords.latitude + "," + position.coords.longitude;
 
   $.ajax({
     type: "GET",
-    url: "https://app.ticketmaster.com/discovery/v2/events.json",
+    url: "https://app.ticketmaster.com/discovery/v2/events?apikey=NtclOaEDxrje7WH09PLMkduQRMFWGKz8&locale=*",
     data: {
-      apikey: "NtclOaEDxrje7WH09PLMkduQRMFWGKz8",
       latlong: latlon,
-      classificationName:
-        "electronic, techno, dance, house, tech house, garage, dnb, drum and bass, jungle",
+      classificationName: "techno, house, dance, electronic",
+      radius: 50,
     },
     async: true,
     dataType: "json",
     success: function (json) {
-      console.log(json);
-      var e = document.getElementById("events");
-      // e.innerHTML = json.page.totalElements + " events found.";
-      showEvents(json);
       initMap(position, json);
     },
     error: function (xhr, status, err) {
@@ -42,6 +32,7 @@ function showPosition(position) {
 }
 
 function showError(error) {
+  var x = document.getElementById("location");
   switch (error.code) {
     case error.PERMISSION_DENIED:
       x.innerHTML = "User denied the request for Geolocation.";
@@ -58,12 +49,6 @@ function showError(error) {
   }
 }
 
-// function showEvents(json) {
-//   for (var i = 0; i < json.page.size; i++) {
-//     $("#events").append("<p>" + json._embedded.events[i].name + "</p>");
-//   }
-// }
-
 function initMap(position, json) {
   var mapDiv = document.getElementById("map");
   var map = new google.maps.Map(mapDiv, {
@@ -75,7 +60,6 @@ function initMap(position, json) {
     addMarker(map, json._embedded.events[i]);
   }
 
-  // Fit the map's bounds to ensure all markers are visible
   var bounds = new google.maps.LatLngBounds();
   for (var i = 0; i < markers.length; i++) {
     bounds.extend(markers[i].getPosition());
@@ -95,7 +79,7 @@ function addMarker(map, event) {
   var infowindow = new google.maps.InfoWindow({
     content: `<div>
       <h2>${event.name}</h2>
-      <p>${event.classifications[0].subGenre.name}</p>
+      <p>${event.classifications[0].genre.name}</p>
       <p>Venue: ${event._embedded.venues[0].name}</p>
       <p>Date: ${event.dates.start.localDate}</p>
       <a href="${event.url}" target="_blank">Event Details</a>
