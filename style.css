@@ -2,9 +2,13 @@
     margin: 0;
 }
 
+body {
+    background-color: #0f2027 !important;
+}
+
 #map {
-    width: 1000px;
-    height: 600px;
+    width: 100vw;
+    height: 50vh;
 }
 
 #attraction-panel {
@@ -13,7 +17,25 @@
 
 .container-fluid {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 100px;
+    justify-content: center;
+    padding: 0 !important;
+
+}
+
+.logo {
+    max-height: 100px;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    background-color: #0f2027;
+}
+
+.navbar li a {
+    color: white;
+}
+
+.active {
+    color: purple !important;
 }

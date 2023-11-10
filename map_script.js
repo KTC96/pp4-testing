@@ -17,7 +17,7 @@ function showPosition(position) {
     url: "https://app.ticketmaster.com/discovery/v2/events?apikey=NtclOaEDxrje7WH09PLMkduQRMFWGKz8&locale=*",
     data: {
       latlong: latlon,
-      classificationName: "techno, house, dance, electronic",
+      classificationName: "techno, house, electronic",
       radius: 50,
     },
     async: true,
